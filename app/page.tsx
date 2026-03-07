@@ -1,7 +1,8 @@
 import App from "../src/App";
-import { getCurriculumItems } from "../src/server/curriculum";
+import { DEFAULT_FLOW_CODE } from "../src/config/flow";
+import { getFlowItems } from "../src/server/flow";
 
 export default async function Page() {
-  const disciplinas = await getCurriculumItems("cc-2017");
-  return <App disciplinas={disciplinas} />;
+  const disciplinas = await getFlowItems(DEFAULT_FLOW_CODE);
+  return <App disciplinas={disciplinas} flowCode={DEFAULT_FLOW_CODE} />;
 }

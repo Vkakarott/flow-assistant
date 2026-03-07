@@ -21,13 +21,13 @@ Permitir acompanhar:
 
 ## Dados e persistência
 
-- Grade curricular: Supabase (`curriculum_items`)
-- Progresso do usuário autenticado: Supabase (`user_progress`)
+- Itens do fluxo: Supabase (`flow_items`)
+- Progresso do usuário autenticado: Supabase (`user_flow_progress`)
 - Fallback local:
 1. Grade: JSON local, caso banco esteja indisponível
 2. Progresso: `localStorage`, para sessão não autenticada
 
-Grade ativa atual: `cc-2017`.
+Fluxo ativo padrão: `cc-2017` (configurável por `NEXT_PUBLIC_DEFAULT_FLOW_CODE`).
 
 Formato de item (referência):
 
@@ -50,48 +50,39 @@ Formato de item (referência):
 - `npm run start`: servidor da build de produção
 - `npm run lint`: análise estática
 - `npm run typecheck`: validação de tipos
-- `npm run seed:cc2017`: envia o JSON base para o Supabase como grade `cc-2017`
+- `npm run db:init`: cria tabelas no Supabase (requer `SUPABASE_DB_URL`)
+- `npm run seed:flow -- --code <flow-code> --file <json-file>`: seed genérico de qualquer fluxo
+- `npm run seed:cc2017`: atalho para seed do fluxo `cc-2017`
 
 ## Setup Supabase
 
-Crie as tabelas:
+1. Inicialize o schema:
 
-```sql
-create table if not exists curriculum_items (
-  curriculum_code text not null,
-  id int not null,
-  nome text not null,
-  periodo_ideal int not null,
-  pre_requisitos int[] not null default '{}',
-  carga_horaria int not null,
-  creditos int not null,
-  tipo text not null check (tipo in ('obrigatoria', 'optativa')),
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  primary key (curriculum_code, id)
-);
+```bash
+npm run db:init
+```
 
-create table if not exists user_progress (
-  user_identifier text not null,
-  curriculum_code text not null,
-  ingresso_ano int not null,
-  ingresso_semestre int not null check (ingresso_semestre in (1, 2)),
-  periodo_offset int not null default 0,
-  concluidas int[] not null default '{}',
-  cursando int[] not null default '{}',
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  primary key (user_identifier, curriculum_code)
-);
+Se preferir manualmente, execute o conteúdo de `supabase/schema.sql` no SQL Editor do Supabase.
+
+2. Faça o upload do fluxo:
+
+```bash
+npm run seed:cc2017
+```
+
+Ou genérico:
+
+```bash
+npm run seed:flow -- --code roadmap-2026 --file ./data/roadmap-2026.json
 ```
 
 ## API (Next.js)
 
 Rotas principais:
 
-- `GET /api/disciplinas?curriculum=cc-2017`: carrega grade curricular
-- `GET /api/progress`: retorna progresso do usuário autenticado
-- `PUT /api/progress`: atualiza progresso do usuário autenticado
+- `GET /api/disciplinas?flow=<flow-code>`: carrega itens do fluxo
+- `GET /api/progress?flowCode=<flow-code>`: retorna progresso do usuário autenticado
+- `PUT /api/progress`: atualiza progresso do usuário autenticado (envie `flowCode` no body)
 
 ## Autenticação (NextAuth)
 
@@ -107,3 +98,5 @@ Copie `.env.example` para `.env.local` e ajuste as credenciais:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (ou `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`)
 - `SUPABASE_SERVICE_ROLE_KEY` (necessária para seed e escrita server-side)
+- `SUPABASE_DB_URL` (necessária para `npm run db:init`)
+- `NEXT_PUBLIC_DEFAULT_FLOW_CODE` (fluxo padrão da aplicação)

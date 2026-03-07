@@ -20,11 +20,13 @@ import type { Disciplina } from "./core/types";
 
 interface AppProps {
   disciplinas: Disciplina[];
+  flowCode: string;
 }
 
-function App({ disciplinas }: AppProps) {
+function App({ disciplinas, flowCode }: AppProps) {
   const { data: session, status } = useSession();
-  const userScope = session?.user?.email ?? session?.user?.name ?? "guest";
+  const accountScope = session?.user?.email ?? session?.user?.name ?? "guest";
+  const userScope = `${accountScope}:${flowCode}`;
   const isHydratedRef = useRef(false);
 
   const [state, dispatch] = useReducer(
@@ -44,7 +46,9 @@ function App({ disciplinas }: AppProps) {
 
       if (status === "authenticated") {
         try {
-          const response = await fetch("/api/progress", { cache: "no-store" });
+          const response = await fetch(`/api/progress?flowCode=${encodeURIComponent(flowCode)}`, {
+            cache: "no-store"
+          });
           if (response.ok) {
             const data = (await response.json()) as { state: typeof loadedState };
             if (data.state) {
@@ -61,7 +65,7 @@ function App({ disciplinas }: AppProps) {
     };
 
     void hydrate();
-  }, [status, userScope]);
+  }, [status, userScope, flowCode]);
 
   useEffect(() => {
     if (status === "loading" || !isHydratedRef.current) return;
@@ -71,10 +75,10 @@ function App({ disciplinas }: AppProps) {
       void fetch("/api/progress", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ state })
+        body: JSON.stringify({ state, flowCode })
       });
     }
-  }, [state, status, userScope]);
+  }, [state, status, userScope, flowCode]);
 
   const resumo = useMemo(() => {
     let concluidas = 0;

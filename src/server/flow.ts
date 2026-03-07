@@ -2,7 +2,7 @@ import type { Disciplina } from "../core/types";
 import disciplinasFallback from "../data/disciplinas.json";
 import { getSupabaseServerClient } from "../lib/supabase/server";
 
-interface CurriculumRow {
+interface FlowRow {
   id: number;
   nome: string;
   periodo_ideal: number;
@@ -12,17 +12,15 @@ interface CurriculumRow {
   tipo: "obrigatoria" | "optativa";
 }
 
-export async function getCurriculumItems(
-  curriculumCode = "cc-2017"
-): Promise<Disciplina[]> {
+export async function getFlowItems(flowCode: string): Promise<Disciplina[]> {
   try {
     const supabase = getSupabaseServerClient();
     const { data, error } = await supabase
-      .from("curriculum_items")
+      .from("flow_items")
       .select(
         "id, nome, periodo_ideal, pre_requisitos, carga_horaria, creditos, tipo"
       )
-      .eq("curriculum_code", curriculumCode)
+      .eq("flow_code", flowCode)
       .order("periodo_ideal", { ascending: true })
       .order("id", { ascending: true });
 
@@ -30,7 +28,7 @@ export async function getCurriculumItems(
       return disciplinasFallback as Disciplina[];
     }
 
-    return (data as CurriculumRow[]).map((item) => ({
+    return (data as FlowRow[]).map((item) => ({
       id: item.id,
       nome: item.nome,
       periodoIdeal: item.periodo_ideal,

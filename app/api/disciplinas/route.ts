@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
-import { getCurriculumItems } from "../../../src/server/curriculum";
+import { DEFAULT_FLOW_CODE } from "../../../src/config/flow";
+import { getFlowItems } from "../../../src/server/flow";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const curriculumCode = searchParams.get("curriculum") ?? "cc-2017";
-  const disciplinas = await getCurriculumItems(curriculumCode);
+  const flowCode =
+    searchParams.get("flow") ?? searchParams.get("curriculum") ?? DEFAULT_FLOW_CODE;
+  const disciplinas = await getFlowItems(flowCode);
 
   return NextResponse.json({
-    curriculum: curriculumCode,
+    flowCode,
     total: disciplinas.length,
     disciplinas
   });

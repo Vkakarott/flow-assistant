@@ -8,3 +8,7 @@ for (const path of candidates) {
     config({ path, override: false });
   }
 }
+
+if (!process.env.DATABASE_URL && process.env.SUPABASE_DB_URL) {
+  process.env.DATABASE_URL = process.env.SUPABASE_DB_URL;
+}

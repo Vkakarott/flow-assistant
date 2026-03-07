@@ -63,6 +63,8 @@ Formato de item (referência):
 npm run db:init
 ```
 
+Use `DATABASE_URL` com senha URL-encoded (ex.: `#` vira `%23`) ou entre aspas no `.env.local`.
+
 2. Faça o upload do fluxo:
 
 ```bash

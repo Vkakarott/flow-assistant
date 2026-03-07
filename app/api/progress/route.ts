@@ -42,14 +42,19 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const data = await prisma.userFlowProgress.findUnique({
-    where: {
-      userIdentifier_flowCode: {
-        userIdentifier,
-        flowCode
+  let data: Awaited<ReturnType<typeof prisma.userFlowProgress.findUnique>> = null;
+  try {
+    data = await prisma.userFlowProgress.findUnique({
+      where: {
+        userIdentifier_flowCode: {
+          userIdentifier,
+          flowCode
+        }
       }
-    }
-  });
+    });
+  } catch {
+    return NextResponse.json({ state: null, storage: "local-fallback" });
+  }
 
   if (!data) {
     return NextResponse.json({ state: null });
@@ -100,7 +105,11 @@ export async function PUT(request: Request) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({
+      ok: false,
+      storage: "local-fallback",
+      error: message
+    });
   }
 
   return NextResponse.json({ ok: true });

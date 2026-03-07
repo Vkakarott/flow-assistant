@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FlowItem {
+  flowCode      String   @map("flow_code")
+  id            Int
+  nome          String
+  periodoIdeal  Int      @map("periodo_ideal")
+  preRequisitos Int[]    @default([]) @map("pre_requisitos")
+  cargaHoraria  Int      @map("carga_horaria")
+  creditos      Int
+  tipo          String
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@id([flowCode, id])
+  @@map("flow_items")
+}
+
+model UserFlowProgress {
+  userIdentifier String   @map("user_identifier")
+  flowCode       String   @map("flow_code")
+  ingressoAno    Int      @map("ingresso_ano")
+  ingressoSemestre Int    @map("ingresso_semestre")
+  periodoOffset  Int      @default(0) @map("periodo_offset")
+  concluidas     Int[]    @default([])
+  cursando       Int[]    @default([])
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@id([userIdentifier, flowCode])
+  @@map("user_flow_progress")
+}

@@ -21,8 +21,8 @@ Permitir acompanhar:
 
 ## Dados e persistência
 
-- Itens do fluxo: Supabase (`flow_items`)
-- Progresso do usuário autenticado: Supabase (`user_flow_progress`)
+- Itens do fluxo: PostgreSQL (`flow_items`) gerenciado por Prisma
+- Progresso do usuário autenticado: PostgreSQL (`user_flow_progress`) gerenciado por Prisma
 - Fallback local:
 1. Grade: JSON local, caso banco esteja indisponível
 2. Progresso: `localStorage`, para sessão não autenticada
@@ -50,19 +50,18 @@ Formato de item (referência):
 - `npm run start`: servidor da build de produção
 - `npm run lint`: análise estática
 - `npm run typecheck`: validação de tipos
-- `npm run db:init`: cria tabelas no Supabase (requer `SUPABASE_DB_URL`)
+- `npm run prisma:generate`: gera client do Prisma
+- `npm run db:init`: aplica schema Prisma no banco (`prisma db push`)
 - `npm run seed:flow -- --code <flow-code> --file <json-file>`: seed genérico de qualquer fluxo
 - `npm run seed:cc2017`: atalho para seed do fluxo `cc-2017`
 
-## Setup Supabase
+## Setup Banco (Prisma)
 
 1. Inicialize o schema:
 
 ```bash
 npm run db:init
 ```
-
-Se preferir manualmente, execute o conteúdo de `supabase/schema.sql` no SQL Editor do Supabase.
 
 2. Faça o upload do fluxo:
 
@@ -95,8 +94,5 @@ Copie `.env.example` para `.env.local` e ajuste as credenciais:
 - `NEXTAUTH_URL`
 - `AUTH_USERNAME`
 - `AUTH_PASSWORD`
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` (ou `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`)
-- `SUPABASE_SERVICE_ROLE_KEY` (necessária para seed e escrita server-side)
-- `SUPABASE_DB_URL` (necessária para `npm run db:init`)
+- `DATABASE_URL` (PostgreSQL connection string para Prisma)
 - `NEXT_PUBLIC_DEFAULT_FLOW_CODE` (fluxo padrão da aplicação)

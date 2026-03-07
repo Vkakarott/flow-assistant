@@ -1,5 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import { readFile } from "node:fs/promises";
+import { PrismaClient } from "@prisma/client";
+import "./lib/load-env.mjs";
 
 function argValue(name, fallback) {
   const index = process.argv.indexOf(name);
@@ -10,12 +11,11 @@ function argValue(name, fallback) {
 const flowCode = argValue("--code", "cc-2017");
 const filePath = argValue("--file", "src/data/disciplinas.json");
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const databaseUrl = process.env.DATABASE_URL;
 
-if (!supabaseUrl || !serviceRoleKey) {
+if (!databaseUrl) {
   console.error(
-    "Missing env vars. Required: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY."
+    "Missing DATABASE_URL. Prisma seed requires a PostgreSQL connection string."
   );
   process.exit(1);
 }
@@ -28,28 +28,44 @@ if (!Array.isArray(items) || items.length === 0) {
   process.exit(1);
 }
 
-const supabase = createClient(supabaseUrl, serviceRoleKey, {
-  auth: { persistSession: false }
-});
+const prisma = new PrismaClient();
 
 const rows = items.map((item) => ({
-  flow_code: flowCode,
+  flowCode,
   id: item.id,
   nome: item.nome,
-  periodo_ideal: item.periodoIdeal,
-  pre_requisitos: item.preRequisitos,
-  carga_horaria: item.cargaHoraria,
+  periodoIdeal: item.periodoIdeal,
+  preRequisitos: item.preRequisitos,
+  cargaHoraria: item.cargaHoraria,
   creditos: item.creditos,
   tipo: item.tipo
 }));
 
-const { error } = await supabase
-  .from("flow_items")
-  .upsert(rows, { onConflict: "flow_code,id" });
-
-if (error) {
-  console.error("Seed failed:", error.message);
+try {
+  for (const row of rows) {
+    await prisma.flowItem.upsert({
+      where: {
+        flowCode_id: {
+          flowCode: row.flowCode,
+          id: row.id
+        }
+      },
+      update: {
+        nome: row.nome,
+        periodoIdeal: row.periodoIdeal,
+        preRequisitos: row.preRequisitos,
+        cargaHoraria: row.cargaHoraria,
+        creditos: row.creditos,
+        tipo: row.tipo
+      },
+      create: row
+    });
+  }
+} catch (error) {
+  console.error("Seed failed:", error instanceof Error ? error.message : error);
   process.exit(1);
+} finally {
+  await prisma.$disconnect();
 }
 
 console.log(

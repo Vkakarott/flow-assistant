@@ -1,10 +1,9 @@
 import type { Disciplina } from "../core/types";
-import disciplinasFallback from "../data/disciplinas.json";
 import { prisma } from "../lib/prisma";
 
 export async function getFlowItems(flowCode: string): Promise<Disciplina[]> {
-  if (!process.env.DATABASE_URL) {
-    return disciplinasFallback as Disciplina[];
+  if (!process.env.DATABASE_URL || !flowCode) {
+    return [];
   }
 
   try {
@@ -14,7 +13,7 @@ export async function getFlowItems(flowCode: string): Promise<Disciplina[]> {
     });
 
     if (!data || data.length === 0) {
-      return disciplinasFallback as Disciplina[];
+      return [];
     }
 
     return data.map((item) => ({
@@ -27,6 +26,43 @@ export async function getFlowItems(flowCode: string): Promise<Disciplina[]> {
       tipo: item.tipo as "obrigatoria" | "optativa"
     }));
   } catch {
-    return disciplinasFallback as Disciplina[];
+    return [];
+  }
+}
+
+export async function getSystemFlowCodes(): Promise<string[]> {
+  if (!process.env.DATABASE_URL) {
+    return [];
+  }
+
+  try {
+    const rows = await prisma.flowItem.findMany({
+      select: { flowCode: true },
+      distinct: ["flowCode"],
+      orderBy: { flowCode: "asc" }
+    });
+
+    return rows.map((row) => row.flowCode);
+  } catch {
+    return [];
+  }
+}
+
+export async function getUserFlowCodes(userIdentifier: string): Promise<string[]> {
+  if (!process.env.DATABASE_URL || !userIdentifier) {
+    return [];
+  }
+
+  try {
+    const rows = await prisma.userFlowProgress.findMany({
+      where: { userIdentifier },
+      select: { flowCode: true },
+      distinct: ["flowCode"],
+      orderBy: { flowCode: "asc" }
+    });
+
+    return rows.map((row) => row.flowCode);
+  } catch {
+    return [];
   }
 }

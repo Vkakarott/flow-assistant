@@ -14,6 +14,9 @@ Permitir acompanhar:
 ## Como funciona
 
 - Cada item do fluxo aparece em um card no diagrama.
+- A matriz atual é escolhida dinamicamente:
+  - Prioridade 1: matrizes do usuário (banco + storage local)
+  - Prioridade 2: matrizes padrão do sistema (banco)
 - Clique em um item disponível para marcar como `cursando`.
 - Clique novamente para marcar como `concluída`.
 - Clique em uma concluída para voltar para `pendente`.
@@ -81,6 +84,7 @@ npm run seed:flow -- --code roadmap-2026 --file ./data/roadmap-2026.json
 
 Rotas principais:
 
+- `GET /api/flows`: catálogo de matrizes (`systemFlowCodes`, `userFlowCodes`)
 - `GET /api/disciplinas?flow=<flow-code>`: carrega itens do fluxo
 - `GET /api/progress?flowCode=<flow-code>`: retorna progresso do usuário autenticado
 - `PUT /api/progress`: atualiza progresso do usuário autenticado (envie `flowCode` no body)

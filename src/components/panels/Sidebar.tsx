@@ -2,6 +2,12 @@ import { PeriodoControl } from "./PeriodoControl";
 import { AuthCard } from "./AuthCard";
 
 interface SidebarProps {
+    selectedFlowCode: string | null;
+    flowOptions: Array<{ code: string; label: string }>;
+    flowSource: "user" | "system";
+    isLoadingCatalog: boolean;
+    isLoadingDisciplinas: boolean;
+    onSelectFlow: (flowCode: string) => void;
     periodo: number;
     offset: number;
     concluidas: number;
@@ -13,6 +19,12 @@ interface SidebarProps {
 }
 
 export function Sidebar({
+    selectedFlowCode,
+    flowOptions,
+    flowSource,
+    isLoadingCatalog,
+    isLoadingDisciplinas,
+    onSelectFlow,
     periodo,
     offset,
     concluidas,
@@ -24,6 +36,35 @@ export function Sidebar({
 }: SidebarProps) {
     return (
         <div className="p-4 space-y-4">
+            <div className="rounded-lg border border-slate-700 p-3 space-y-2 bg-slate-900">
+                <div className="text-sm font-semibold text-slate-100">
+                    Matriz atual
+                </div>
+                <select
+                    className="w-full rounded-md border border-slate-700 bg-slate-950 p-2 text-sm text-slate-100 outline-none focus:border-sky-500"
+                    value={selectedFlowCode ?? ""}
+                    onChange={(event) => onSelectFlow(event.target.value)}
+                    disabled={isLoadingCatalog || flowOptions.length === 0}
+                >
+                    <option value="" disabled>
+                        {isLoadingCatalog ? "Carregando matrizes..." : "Selecione uma matriz"}
+                    </option>
+                    {flowOptions.map((option) => (
+                        <option key={option.code} value={option.code}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
+                <div className="text-xs text-slate-400">
+                    {flowSource === "user"
+                        ? "Exibindo matrizes do usuário (banco + storage)."
+                        : "Exibindo matrizes padrão do sistema."}
+                </div>
+                {isLoadingDisciplinas && (
+                    <div className="text-xs text-slate-400">Carregando disciplinas da matriz...</div>
+                )}
+            </div>
+
             <AuthCard
                 concluidas={concluidas}
                 cursando={cursando}

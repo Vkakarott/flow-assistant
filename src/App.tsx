@@ -15,10 +15,14 @@ import {
 
 import { calcularPeriodoEfetivo } from "./core/academic";
 import { loadAcademicState, saveAcademicState } from "./core/persistence";
-import { DATA } from "./core";
 import { calcularStatus } from "./core/status";
+import type { Disciplina } from "./core/types";
 
-function App() {
+interface AppProps {
+  disciplinas: Disciplina[];
+}
+
+function App({ disciplinas }: AppProps) {
   const { data: session, status } = useSession();
   const userScope = session?.user?.email ?? session?.user?.name ?? "guest";
   const isHydratedRef = useRef(false);
@@ -33,14 +37,43 @@ function App() {
   useEffect(() => {
     if (status === "loading") return;
 
-    const loadedState = loadAcademicState(userScope) ?? initialAcademicState;
-    dispatch({ type: "HYDRATE", state: loadedState });
-    isHydratedRef.current = true;
+    isHydratedRef.current = false;
+
+    const hydrate = async () => {
+      let loadedState = loadAcademicState(userScope);
+
+      if (status === "authenticated") {
+        try {
+          const response = await fetch("/api/progress", { cache: "no-store" });
+          if (response.ok) {
+            const data = (await response.json()) as { state: typeof loadedState };
+            if (data.state) {
+              loadedState = data.state;
+            }
+          }
+        } catch {
+          // fallback to local storage
+        }
+      }
+
+      dispatch({ type: "HYDRATE", state: loadedState ?? initialAcademicState });
+      isHydratedRef.current = true;
+    };
+
+    void hydrate();
   }, [status, userScope]);
 
   useEffect(() => {
     if (status === "loading" || !isHydratedRef.current) return;
     saveAcademicState(state, userScope);
+
+    if (status === "authenticated") {
+      void fetch("/api/progress", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state })
+      });
+    }
   }, [state, status, userScope]);
 
   const resumo = useMemo(() => {
@@ -49,7 +82,7 @@ function App() {
     let bloqueadas = 0;
     let disponiveis = 0;
 
-    DATA.disciplinas.forEach((disciplina) => {
+    disciplinas.forEach((disciplina) => {
       const status = calcularStatus(disciplina, state);
 
       if (status === "concluida") concluidas += 1;
@@ -64,7 +97,7 @@ function App() {
       bloqueadas,
       pendentes: disponiveis + bloqueadas
     };
-  }, [state]);
+  }, [state, disciplinas]);
 
   return (
     <AppLayout
@@ -72,6 +105,7 @@ function App() {
         <CourseDiagram
           state={state}
           dispatch={dispatch}
+          disciplinas={disciplinas}
         />
       }
       sidebar={
@@ -82,7 +116,7 @@ function App() {
           cursando={resumo.cursando}
           pendentes={resumo.pendentes}
           bloqueadas={resumo.bloqueadas}
-          total={DATA.disciplinas.length}
+          total={disciplinas.length}
           onChangeOffset={(value) =>
             dispatch({
               type: "SET_PERIODO_OFFSET",

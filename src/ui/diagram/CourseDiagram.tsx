@@ -1,4 +1,3 @@
-import { DATA } from "../../core";
 import {
     buildLayout,
     CARD_HEIGHT,
@@ -14,10 +13,12 @@ import { PrerequisiteLine } from "../../components/diagram/PrerequisiteLine";
 
 import type { AcademicAction, AcademicState } from "../../core/state";
 import type { DisciplinaStatus } from "../../core/status";
+import type { Disciplina } from "../../core/types";
 
 interface CourseDiagramProps {
     state: AcademicState;
     dispatch: React.Dispatch<AcademicAction>;
+    disciplinas: Disciplina[];
 }
 
 function nextActionByStatus(status: DisciplinaStatus, id: number): AcademicAction | null {
@@ -38,9 +39,10 @@ function nextActionByStatus(status: DisciplinaStatus, id: number): AcademicActio
 
 export function CourseDiagram({
     state,
-    dispatch
+    dispatch,
+    disciplinas
 }: CourseDiagramProps) {
-    const nodes = buildLayout(DATA.disciplinas);
+    const nodes = buildLayout(disciplinas);
     const connections = buildConnections(nodes);
     const { width, height } = getDiagramSize(nodes);
     const maxPeriodo = nodes.length

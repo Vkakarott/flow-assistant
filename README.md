@@ -51,13 +51,13 @@ Formato de item (referência):
 - `npm run lint`: análise estática
 - `npm run typecheck`: validação de tipos
 - `npm run prisma:generate`: gera client do Prisma
-- `npm run db:init`: aplica schema Prisma no banco (`prisma db push`)
+- `npm run db:init`: aplica migrações Prisma no banco (`prisma migrate deploy`)
 - `npm run seed:flow -- --code <flow-code> --file <json-file>`: seed genérico de qualquer fluxo
 - `npm run seed:cc2017`: atalho para seed do fluxo `cc-2017`
 
 ## Setup Banco (Prisma)
 
-1. Inicialize o schema:
+1. Aplique as migrações:
 
 ```bash
 npm run db:init

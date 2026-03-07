@@ -23,7 +23,9 @@ const npxCmd = existsSync("node_modules/.bin/prisma")
   ? "node_modules/.bin/prisma"
   : "npx";
 const args =
-  npxCmd === "npx" ? ["prisma", "db", "push"] : ["db", "push"];
+  npxCmd === "npx"
+    ? ["prisma", "migrate", "deploy"]
+    : ["migrate", "deploy"];
 
 const result = spawnSync(npxCmd, args, {
   stdio: "inherit",

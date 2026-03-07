@@ -14,6 +14,7 @@ dist-ssr
 coverage
 *.tsbuildinfo
 .env.local
+.env
 .env*.local
 *.local
 

@@ -96,5 +96,13 @@ Copie `.env.example` para `.env.local` e ajuste as credenciais:
 - `NEXTAUTH_URL`
 - `AUTH_USERNAME`
 - `AUTH_PASSWORD`
-- `DATABASE_URL` (PostgreSQL connection string para Prisma)
+- `DATABASE_URL` (Supabase pooling URL para runtime Prisma)
+- `DIRECT_URL` (Supabase direct URL para migrações e seed)
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`
 - `NEXT_PUBLIC_DEFAULT_FLOW_CODE` (fluxo padrão da aplicação)
+
+Regras de conexão:
+
+- Runtime da aplicação: `DATABASE_URL` (pooler)
+- Migração e seed (`db:init`, `seed:*`): `DIRECT_URL` quando definido; fallback para `DATABASE_URL`

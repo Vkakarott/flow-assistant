@@ -11,11 +11,11 @@ function argValue(name, fallback) {
 const flowCode = argValue("--code", "cc-2017");
 const filePath = argValue("--file", "src/data/disciplinas.json");
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DIRECT_URL || process.env.DATABASE_URL;
 
 if (!databaseUrl) {
   console.error(
-    "Missing DATABASE_URL. Prisma seed requires a PostgreSQL connection string."
+    "Missing DIRECT_URL or DATABASE_URL. Prisma seed requires a PostgreSQL connection string."
   );
   process.exit(1);
 }
@@ -28,7 +28,13 @@ if (!Array.isArray(items) || items.length === 0) {
   process.exit(1);
 }
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: databaseUrl
+    }
+  }
+});
 
 const rows = items.map((item) => ({
   flowCode,

@@ -12,3 +12,7 @@ for (const path of candidates) {
 if (!process.env.DATABASE_URL && process.env.SUPABASE_DB_URL) {
   process.env.DATABASE_URL = process.env.SUPABASE_DB_URL;
 }
+
+if (!process.env.DIRECT_URL && process.env.SUPABASE_DIRECT_URL) {
+  process.env.DIRECT_URL = process.env.SUPABASE_DIRECT_URL;
+}

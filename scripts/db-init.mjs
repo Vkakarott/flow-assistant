@@ -2,19 +2,23 @@ import { existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import "./lib/load-env.mjs";
 
-if (!process.env.DATABASE_URL) {
-  console.error("Missing DATABASE_URL. Set it in .env.local or .env.");
+const migrateUrl = process.env.DIRECT_URL || process.env.DATABASE_URL;
+
+if (!migrateUrl) {
+  console.error("Missing DIRECT_URL or DATABASE_URL. Set one in .env.local or .env.");
   process.exit(1);
 }
 
-if (!process.env.DATABASE_URL.startsWith("postgresql://")) {
-  console.error("Invalid DATABASE_URL. Expected a postgresql:// connection string.");
-  process.exit(1);
-}
-
-if (process.env.DATABASE_URL.includes("#")) {
+if (!migrateUrl.startsWith("postgresql://")) {
   console.error(
-    "DATABASE_URL appears to contain '#'. URL-encode special chars in password (e.g. '#' => '%23') or wrap value in quotes."
+    "Invalid DIRECT_URL/DATABASE_URL. Expected a postgresql:// connection string."
+  );
+  process.exit(1);
+}
+
+if (migrateUrl.includes("#")) {
+  console.error(
+    "Connection URL appears to contain '#'. URL-encode special chars in password (e.g. '#' => '%23') or wrap value in quotes."
   );
   process.exit(1);
 }
@@ -30,7 +34,10 @@ const args =
 const result = spawnSync(npxCmd, args, {
   stdio: "inherit",
   shell: process.platform === "win32",
-  env: process.env
+  env: {
+    ...process.env,
+    DATABASE_URL: migrateUrl
+  }
 });
 
 process.exit(result.status ?? 1);

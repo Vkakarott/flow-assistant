@@ -5,7 +5,7 @@ export const CARD_HEIGHT = 64;
 export const GAP_X = 28;
 export const GAP_Y = 34;
 export const OFFSET_X = 140;
-export const OFFSET_Y = 56;
+export const OFFSET_Y = 20;
 
 export interface PositionedDisciplina extends Disciplina {
     col: number;
@@ -56,6 +56,6 @@ export function getDiagramSize(nodes: PositionedDisciplina[]) {
 
     return {
         width: maxX + OFFSET_X,
-        height: maxY + OFFSET_Y
+        height: maxY + 20
     };
 }

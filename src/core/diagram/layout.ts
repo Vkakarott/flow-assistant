@@ -3,7 +3,7 @@ import type { Disciplina } from "../types";
 export const CARD_WIDTH = 160;
 export const CARD_HEIGHT = 64;
 export const GAP_X = 28;
-export const GAP_Y = 24;
+export const GAP_Y = 34;
 export const OFFSET_X = 140;
 export const OFFSET_Y = 56;
 

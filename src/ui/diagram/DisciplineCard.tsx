@@ -69,7 +69,7 @@ export function DisciplineCard({ node, status, onClick }: Props) {
 
     const lineHeight = 14;
     const totalTextHeight = lines.length * lineHeight;
-    const startY = node.y + CARD_HEIGHT / 2 - totalTextHeight / 2 + lineHeight;
+    const startY = node.y + CARD_HEIGHT / 2 - totalTextHeight / 2 + lineHeight - 2;
     const clickable = status !== "bloqueada";
     return (
         <g

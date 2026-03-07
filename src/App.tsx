@@ -90,7 +90,7 @@ function App({ initialFlowCode }: AppProps) {
       const userLoadedFlowCodes = uniqueSorted([...userFlowCodes, ...storedFlowCodes]);
       const catalogFlowCodes = userLoadedFlowCodes.length
         ? userLoadedFlowCodes
-        : uniqueSorted(systemFlowCodes);
+        : uniqueSorted([...systemFlowCodes, initialFlowCode]);
 
       setFlowSource(userLoadedFlowCodes.length ? "user" : "system");
       setAvailableFlowCodes(catalogFlowCodes);

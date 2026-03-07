@@ -17,6 +17,8 @@ Permitir acompanhar:
 - A matriz atual é escolhida dinamicamente:
   - Prioridade 1: matrizes do usuário (banco + storage local)
   - Prioridade 2: matrizes padrão do sistema (banco)
+- Fallback resiliente:
+  - Se banco cair ou não tiver dados, a aplicação carrega a matriz padrão local (`cc-2017`) do JSON.
 - Clique em um item disponível para marcar como `cursando`.
 - Clique novamente para marcar como `concluída`.
 - Clique em uma concluída para voltar para `pendente`.

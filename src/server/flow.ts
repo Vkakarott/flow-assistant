@@ -1,9 +1,19 @@
 import type { Disciplina } from "../core/types";
+import disciplinasFallback from "../data/disciplinas.json";
+import { DEFAULT_FLOW_CODE } from "../config/flow";
 import { prisma } from "../lib/prisma";
+
+function getFallbackFlowItems(flowCode: string): Disciplina[] {
+  if (flowCode !== DEFAULT_FLOW_CODE) {
+    return [];
+  }
+
+  return disciplinasFallback as Disciplina[];
+}
 
 export async function getFlowItems(flowCode: string): Promise<Disciplina[]> {
   if (!process.env.DATABASE_URL || !flowCode) {
-    return [];
+    return getFallbackFlowItems(flowCode);
   }
 
   try {
@@ -13,7 +23,7 @@ export async function getFlowItems(flowCode: string): Promise<Disciplina[]> {
     });
 
     if (!data || data.length === 0) {
-      return [];
+      return getFallbackFlowItems(flowCode);
     }
 
     return data.map((item) => ({
@@ -26,13 +36,13 @@ export async function getFlowItems(flowCode: string): Promise<Disciplina[]> {
       tipo: item.tipo as "obrigatoria" | "optativa"
     }));
   } catch {
-    return [];
+    return getFallbackFlowItems(flowCode);
   }
 }
 
 export async function getSystemFlowCodes(): Promise<string[]> {
   if (!process.env.DATABASE_URL) {
-    return [];
+    return [DEFAULT_FLOW_CODE];
   }
 
   try {
@@ -42,9 +52,14 @@ export async function getSystemFlowCodes(): Promise<string[]> {
       orderBy: { flowCode: "asc" }
     });
 
-    return rows.map((row) => row.flowCode);
+    const codes = rows.map((row) => row.flowCode);
+    if (!codes.includes(DEFAULT_FLOW_CODE)) {
+      codes.push(DEFAULT_FLOW_CODE);
+    }
+
+    return codes.sort((a, b) => a.localeCompare(b));
   } catch {
-    return [];
+    return [DEFAULT_FLOW_CODE];
   }
 }
 

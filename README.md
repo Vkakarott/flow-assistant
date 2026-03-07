@@ -60,6 +60,11 @@ Formato de item (referência):
 - `npm run seed:flow -- --code <flow-code> --file <json-file>`: seed genérico de qualquer fluxo
 - `npm run seed:cc2017`: atalho para seed do fluxo `cc-2017`
 
+## Runtime
+
+- Use Node.js 22 LTS (`.nvmrc` = `22`).
+- Em versões não suportadas (ex.: Node 25), o Next.js pode apresentar erros de manifest/bundler em dev.
+
 ## Setup Banco (Prisma)
 
 1. Aplique as migrações:

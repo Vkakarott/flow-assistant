@@ -54,6 +54,12 @@ export function AuthCard({ total, concluidas, cursando }: AuthCardProps) {
         Em andamento: {cursando}
       </div>
       <div className="flex items-center gap-2">
+        <Link
+          href="/nova-matriz"
+          className="rounded-md bg-sky-600 hover:bg-sky-500 px-3 py-2 text-sm text-white"
+        >
+          Nova matriz
+        </Link>
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: "/" })}

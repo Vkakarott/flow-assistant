@@ -92,9 +92,32 @@ npm run seed:flow -- --code roadmap-2026 --file ./data/roadmap-2026.json
 Rotas principais:
 
 - `GET /api/flows`: catálogo de matrizes (`systemFlowCodes`, `userFlowCodes`)
+- `POST /api/flows`: upload de matriz (`flowCode` + `disciplinas[]`) no formato do JSON
 - `GET /api/disciplinas?flow=<flow-code>`: carrega itens do fluxo
 - `GET /api/progress?flowCode=<flow-code>`: retorna progresso do usuário autenticado
 - `PUT /api/progress`: atualiza progresso do usuário autenticado (envie `flowCode` no body)
+
+### Upload de matriz
+
+- Página: `/nova-matriz` (exige login)
+- Payload esperado no `POST /api/flows`:
+
+```json
+{
+  "flowCode": "cc-2017",
+  "disciplinas": [
+    {
+      "id": 1,
+      "nome": "Introdução",
+      "periodoIdeal": 1,
+      "preRequisitos": [],
+      "cargaHoraria": 64,
+      "creditos": 4,
+      "tipo": "obrigatoria"
+    }
+  ]
+}
+```
 
 ## Autenticação (NextAuth)
 

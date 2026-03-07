@@ -123,13 +123,14 @@ Rotas principais:
 
 - Login: `/login`
 - API de auth: `/api/auth/[...nextauth]`
+- Fluxo:
+  - Se o email não existir, cria usuário automaticamente.
+  - Se existir, valida a senha e autentica.
 
 Copie `.env.example` para `.env.local` e ajuste as credenciais:
 
 - `NEXTAUTH_SECRET`
 - `NEXTAUTH_URL`
-- `AUTH_USERNAME`
-- `AUTH_PASSWORD`
 - `DATABASE_URL` (Supabase pooling URL para runtime Prisma)
 - `DIRECT_URL` (Supabase direct URL para migrações e seed)
 - `NEXT_PUBLIC_SUPABASE_URL`

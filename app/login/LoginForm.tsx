@@ -5,8 +5,8 @@ import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 
 export function LoginForm() {
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("admin123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,14 +16,14 @@ export function LoginForm() {
     setError(null);
 
     const result = await signIn("credentials", {
-      username,
+      email,
       password,
       callbackUrl: "/",
       redirect: false
     });
 
     if (!result || result.error) {
-      setError("Usuário ou senha inválidos.");
+      setError("Email ou senha inválidos.");
       setIsSubmitting(false);
       return;
     }
@@ -37,18 +37,21 @@ export function LoginForm() {
       onSubmit={onSubmit}
     >
       <h1 className="text-xl font-semibold text-slate-100">Entrar</h1>
+      <p className="text-xs text-slate-400">
+        Se o email não existir, uma conta será criada automaticamente.
+      </p>
 
       <div className="space-y-1">
-        <label htmlFor="username" className="text-sm text-slate-300">
-          Usuário
+        <label htmlFor="email" className="text-sm text-slate-300">
+          Email
         </label>
         <input
-          id="username"
-          name="username"
-          type="text"
+          id="email"
+          name="email"
+          type="email"
           required
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100"
         />
       </div>
@@ -75,12 +78,8 @@ export function LoginForm() {
         disabled={isSubmitting}
         className="w-full rounded-md bg-sky-600 hover:bg-sky-500 disabled:opacity-60 px-3 py-2 text-white font-medium"
       >
-        {isSubmitting ? "Entrando..." : "Entrar"}
+        {isSubmitting ? "Entrando..." : "Entrar / Criar conta"}
       </button>
-
-      <p className="text-xs text-slate-400">
-        Usuário padrão: <code>admin</code> | Senha padrão: <code>admin123</code>
-      </p>
 
       <Link href="/" className="inline-block text-sm text-slate-300 hover:text-slate-100">
         Voltar ao assistente

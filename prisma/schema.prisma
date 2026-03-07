@@ -38,3 +38,13 @@ model UserFlowProgress {
   @@id([userIdentifier, flowCode])
   @@map("user_flow_progress")
 }
+
+model AuthUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("auth_users")
+}

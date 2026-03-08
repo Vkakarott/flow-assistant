@@ -92,7 +92,7 @@ function App() {
       const rememberedFlow = loadSelectedFlow(accountScope);
       const selected = rememberedFlow && catalogFlowCodes.includes(rememberedFlow)
         ? rememberedFlow
-        : catalogFlowCodes[0] ?? null;
+        : null;
 
       setSelectedFlowCode(selected);
       setIsLoadingCatalog(false);

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
     buildLayout,
     CARD_HEIGHT,
@@ -42,19 +43,42 @@ export function CourseDiagram({
     dispatch,
     disciplinas
 }: CourseDiagramProps) {
+    const [mobileScale, setMobileScale] = useState(1);
     const nodes = buildLayout(disciplinas);
     const connections = buildConnections(nodes);
     const { width, height } = getDiagramSize(nodes);
+    const canvasWidth = Math.max(width, 800);
+    const canvasHeight = Math.max(height, 600);
     const maxPeriodo = nodes.length
         ? Math.max(...nodes.map(node => node.periodoIdeal))
         : 0;
 
+    useEffect(() => {
+        const onResize = () => {
+            setMobileScale(window.innerWidth < 768 ? 0.72 : 1);
+        };
+
+        onResize();
+        window.addEventListener("resize", onResize);
+        return () => window.removeEventListener("resize", onResize);
+    }, []);
+
     return (
         <div className="h-full w-full overflow-auto bg-[#09090b]">
+            <div
+                style={{
+                    width: `${canvasWidth * mobileScale}px`,
+                    height: `${canvasHeight * mobileScale}px`
+                }}
+            >
             <svg
-                width={Math.max(width, 800)}
-                height={Math.max(height, 600)}
-                viewBox={`0 0 ${Math.max(width, 800)} ${Math.max(height, 600)}`}
+                width={canvasWidth}
+                height={canvasHeight}
+                viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
+                style={{
+                    transform: `scale(${mobileScale})`,
+                    transformOrigin: "top left"
+                }}
             >
                 <defs>
                     <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
@@ -87,7 +111,7 @@ export function CourseDiagram({
                             <rect
                                 x={0}
                                 y={y}
-                                width={Math.max(width, 800)}
+                                width={canvasWidth}
                                 height={rowHeight}
                                 fill={isEven ? "rgba(28, 28, 31, 0.48)" : "rgba(18, 18, 20, 0.25)"}
                             />
@@ -98,7 +122,7 @@ export function CourseDiagram({
                                 fontSize={16}
                                 fontWeight={600}
                             >
-                                {`Período ${index + 1}`}
+                                {`${index + 1}`}
                             </text>
                         </g>
                     );
@@ -108,7 +132,7 @@ export function CourseDiagram({
                     x1={OFFSET_X - 22}
                     y1={OFFSET_Y - 12}
                     x2={OFFSET_X - 22}
-                    y2={Math.max(height, 600) - OFFSET_Y + 8}
+                    y2={canvasHeight - OFFSET_Y + 8}
                     stroke="#334155"
                     strokeWidth={1.2}
                 />
@@ -135,6 +159,7 @@ export function CourseDiagram({
                     );
                 })}
             </svg>
+            </div>
         </div>
     );
 }

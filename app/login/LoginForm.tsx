@@ -33,11 +33,11 @@ export function LoginForm() {
 
   return (
     <form
-      className="w-full max-w-sm rounded-xl border border-slate-700 bg-slate-900 p-6 space-y-4"
+      className="w-full max-w-sm space-y-4 rounded-xl border border-white/10 bg-black/45 p-6 backdrop-blur"
       onSubmit={onSubmit}
     >
-      <h1 className="text-xl font-semibold text-slate-100">Entrar</h1>
-      <p className="text-xs text-slate-400">
+      <h1 className="text-lg font-semibold text-slate-100">Entrar</h1>
+      <p className="text-xs text-slate-400/90">
         Se o email não existir, uma conta será criada automaticamente.
       </p>
 
@@ -52,7 +52,7 @@ export function LoginForm() {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100"
+          className="w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 text-slate-100 outline-none focus:border-sky-500"
         />
       </div>
 
@@ -67,7 +67,7 @@ export function LoginForm() {
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100"
+          className="w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 text-slate-100 outline-none focus:border-sky-500"
         />
       </div>
 
@@ -76,12 +76,12 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-md bg-sky-600 hover:bg-sky-500 disabled:opacity-60 px-3 py-2 text-white font-medium"
+        className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-slate-100 hover:bg-white/10 disabled:opacity-60"
       >
         {isSubmitting ? "Entrando..." : "Entrar / Criar conta"}
       </button>
 
-      <Link href="/" className="inline-block text-sm text-slate-300 hover:text-slate-100">
+      <Link href="/" className="inline-block text-xs text-slate-400 hover:text-slate-100">
         Voltar ao assistente
       </Link>
     </form>

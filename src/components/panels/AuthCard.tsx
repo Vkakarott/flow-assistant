@@ -15,22 +15,22 @@ export function AuthCard({ total, concluidas, cursando }: AuthCardProps) {
 
   if (status === "loading") {
     return (
-      <div className="rounded-lg border border-slate-700 p-3 space-y-2 bg-slate-900">
-        <div className="text-sm text-slate-400">Carregando perfil...</div>
+      <div className="rounded-lg border border-white/10 bg-black/35 p-3">
+        <div className="text-xs text-slate-400">Carregando perfil...</div>
       </div>
     );
   }
 
   if (!session) {
     return (
-      <div className="rounded-lg border border-slate-700 p-3 space-y-3 bg-slate-900">
-        <div className="text-sm font-semibold text-slate-100">Conta</div>
+      <div className="rounded-lg border border-white/10 bg-black/35 p-3 space-y-3">
+        <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Conta</div>
         <div className="text-xs text-slate-300">
           Faça login para vincular e salvar seu progresso.
         </div>
         <Link
           href="/login"
-          className="inline-block rounded-md bg-sky-600 hover:bg-sky-500 px-3 py-2 text-sm text-white"
+          className="inline-flex items-center rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-100 hover:bg-white/10"
         >
           Entrar
         </Link>
@@ -39,8 +39,8 @@ export function AuthCard({ total, concluidas, cursando }: AuthCardProps) {
   }
 
   return (
-    <div className="rounded-lg border border-slate-700 p-3 space-y-3 bg-slate-900">
-      <div className="text-sm font-semibold text-slate-100">Conta vinculada</div>
+    <div className="rounded-lg border border-white/10 bg-black/35 p-3 space-y-3">
+      <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Conta vinculada</div>
       <div className="text-xs text-slate-300">
         {session.user?.name ?? "Usuário"} ({session.user?.email ?? "sem email"})
       </div>
@@ -56,14 +56,14 @@ export function AuthCard({ total, concluidas, cursando }: AuthCardProps) {
       <div className="flex items-center gap-2">
         <Link
           href="/nova-matriz"
-          className="rounded-md bg-sky-600 hover:bg-sky-500 px-3 py-2 text-sm text-white"
+          className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-slate-100 hover:bg-white/10"
         >
           Nova matriz
         </Link>
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="rounded-md bg-rose-600 hover:bg-rose-500 px-3 py-2 text-sm text-white"
+          className="rounded-md border border-rose-400/20 bg-rose-500/10 px-2.5 py-1.5 text-xs font-medium text-rose-200 hover:bg-rose-500/20"
         >
           Sair
         </button>

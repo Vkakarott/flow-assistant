@@ -16,7 +16,7 @@ export function AppLayout({
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
     return (
-        <div className="w-screen h-screen flex flex-col overflow-hidden bg-slate-950 text-slate-100">
+        <div className="w-screen h-screen flex flex-col overflow-hidden bg-[#0a0a0b] text-slate-100">
             <div className="relative flex flex-1 overflow-hidden">
                 <main className="flex-1 overflow-hidden">
                     {main}
@@ -27,17 +27,17 @@ export function AppLayout({
                         type="button"
                         onClick={() => setIsSidebarCollapsed(false)}
                         aria-label="Expandir sidebar"
-                        className="absolute right-3 top-4 z-30 h-8 w-8 rounded-full border border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800"
+                        className="absolute right-3 top-4 z-30 inline-flex h-8 items-center rounded-md border border-white/15 bg-black/70 px-2 text-xs font-medium text-slate-200 backdrop-blur hover:bg-black/85"
                     >
-                        ◀
+                        Abrir
                     </button>
                 )}
 
                 <aside
-                    className={`relative shrink-0 overflow-hidden bg-slate-950 transition-[width] duration-200 ${
+                    className={`relative shrink-0 overflow-hidden border-l border-white/10 bg-black/65 backdrop-blur transition-[width] duration-200 ${
                         isSidebarCollapsed
                             ? "w-0 border-l-0"
-                            : "w-80 border-l border-slate-800"
+                            : "w-72 xl:w-80"
                     }`}
                 >
                     {!isSidebarCollapsed && (
@@ -45,9 +45,9 @@ export function AppLayout({
                             type="button"
                             onClick={() => setIsSidebarCollapsed(true)}
                             aria-label="Retrair sidebar"
-                            className="absolute left-0 top-4 -translate-x-1/2 z-20 h-8 w-8 rounded-full border border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800"
+                            className="absolute left-0 top-4 z-20 -translate-x-1/2 inline-flex h-8 items-center rounded-md border border-white/15 bg-black/70 px-2 text-xs font-medium text-slate-200 backdrop-blur hover:bg-black/85"
                         >
-                            ▶
+                            Fechar
                         </button>
                     )}
 
@@ -64,7 +64,7 @@ export function AppLayout({
             </div>
     
             {footer && (
-                <footer className="shrink-0 border-t border-slate-800 bg-slate-900 text-slate-300">
+                <footer className="shrink-0 border-t border-white/10 bg-black/70 text-slate-300">
                     {footer}
                 </footer>
             )}

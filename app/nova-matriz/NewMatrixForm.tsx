@@ -71,11 +71,11 @@ export function NewMatrixForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="mx-auto w-full max-w-3xl rounded-xl border border-slate-700 bg-slate-900 p-5 space-y-4"
+      className="mx-auto w-full max-w-3xl space-y-4 rounded-xl border border-white/10 bg-black/45 p-5 backdrop-blur"
     >
       <div>
-        <h1 className="text-xl font-semibold text-slate-100">Nova matriz</h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <h1 className="text-lg font-semibold text-slate-100">Nova matriz</h1>
+        <p className="mt-1 text-sm text-slate-400/90">
           Envie um `flowCode` e um JSON no formato de `disciplinas`.
         </p>
       </div>
@@ -90,7 +90,7 @@ export function NewMatrixForm() {
           value={flowCode}
           onChange={(event) => setFlowCode(event.target.value)}
           placeholder="ex: cc-2017"
-          className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-slate-100"
+          className="w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 text-slate-100 outline-none focus:border-sky-500"
           required
         />
       </div>
@@ -103,7 +103,7 @@ export function NewMatrixForm() {
           id="matrixJson"
           value={jsonText}
           onChange={(event) => setJsonText(event.target.value)}
-          className="min-h-[320px] w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 font-mono text-xs text-slate-100"
+          className="min-h-[320px] w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 font-mono text-xs text-slate-100 outline-none focus:border-sky-500"
           spellCheck={false}
           required
         />
@@ -115,7 +115,7 @@ export function NewMatrixForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="rounded-md bg-sky-600 hover:bg-sky-500 disabled:opacity-60 px-4 py-2 text-sm text-white"
+        className="rounded-md border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-100 hover:bg-white/10 disabled:opacity-60"
       >
         {isSubmitting ? "Salvando..." : "Salvar matriz"}
       </button>

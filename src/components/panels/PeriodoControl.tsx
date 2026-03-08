@@ -6,26 +6,26 @@ interface Props {
 
 export function PeriodoControl({ periodo, offset, onChange }: Props) {
     return (
-        <div className="space-y-2 rounded-lg border border-slate-700 p-3 bg-slate-900">
-            <div className="text-sm text-slate-300">
+        <div className="space-y-2 rounded-lg border border-white/10 bg-black/35 p-3">
+            <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
                 Período atual
             </div>
     
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
                 <button
                     onClick={() => onChange(offset - 1)}
-                    className="px-2 py-1 rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-black/60 text-slate-200 hover:bg-black/80"
                 >
                     −
                 </button>
         
-                <span className="text-lg font-semibold text-slate-100 min-w-8 text-center">
+                <span className="min-w-8 text-center text-base font-semibold text-slate-100">
                     {periodo}
                 </span>
         
                 <button
                     onClick={() => onChange(offset + 1)}
-                    className="px-2 py-1 rounded bg-slate-700 text-slate-200 hover:bg-slate-600"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-black/60 text-slate-200 hover:bg-black/80"
                 >
                     +
                 </button>

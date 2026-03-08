@@ -78,7 +78,7 @@ export function LoginForm() {
         disabled={isSubmitting}
         className="w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-slate-100 hover:bg-white/10 disabled:opacity-60"
       >
-        {isSubmitting ? "Entrando..." : "Entrar / Criar conta"}
+        {isSubmitting ? "Entrando..." : "Entrar"}
       </button>
 
       <Link href="/" className="inline-block text-xs text-slate-400 hover:text-slate-100">

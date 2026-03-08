@@ -24,10 +24,6 @@ import {
 import { calcularStatus } from "./core/status";
 import type { Disciplina } from "./core/types";
 
-interface AppProps {
-  initialFlowCode: string;
-}
-
 interface FlowCatalogResponse {
   systemFlowCodes: string[];
   userFlowCodes: string[];
@@ -46,12 +42,11 @@ function formatFlowLabel(flowCode: string): string {
   return flowCode.replace(/[-_]/g, " ").toUpperCase();
 }
 
-function App({ initialFlowCode }: AppProps) {
+function App() {
   const { data: session, status } = useSession();
   const [disciplinas, setDisciplinas] = useState<Disciplina[]>([]);
   const [availableFlowCodes, setAvailableFlowCodes] = useState<string[]>([]);
   const [selectedFlowCode, setSelectedFlowCode] = useState<string | null>(null);
-  const [flowSource, setFlowSource] = useState<"user" | "system">("system");
   const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [isLoadingDisciplinas, setIsLoadingDisciplinas] = useState(false);
 
@@ -92,22 +87,19 @@ function App({ initialFlowCode }: AppProps) {
         ? userLoadedFlowCodes
         : uniqueSorted(systemFlowCodes);
 
-      setFlowSource(userLoadedFlowCodes.length ? "user" : "system");
       setAvailableFlowCodes(catalogFlowCodes);
 
       const rememberedFlow = loadSelectedFlow(accountScope);
       const selected = rememberedFlow && catalogFlowCodes.includes(rememberedFlow)
         ? rememberedFlow
-        : catalogFlowCodes.includes(initialFlowCode)
-          ? initialFlowCode
-          : catalogFlowCodes[0] ?? null;
+        : catalogFlowCodes[0] ?? null;
 
       setSelectedFlowCode(selected);
       setIsLoadingCatalog(false);
     };
 
     void loadCatalog();
-  }, [status, accountScope, initialFlowCode]);
+  }, [status, accountScope]);
 
   useEffect(() => {
     if (!selectedFlowCode) {
@@ -240,13 +232,12 @@ function App({ initialFlowCode }: AppProps) {
         )
       }
       sidebar={
-        <Sidebar
-          selectedFlowCode={selectedFlowCode}
-          flowOptions={flowOptions}
-          flowSource={flowSource}
-          isLoadingCatalog={isLoadingCatalog}
-          isLoadingDisciplinas={isLoadingDisciplinas}
-          onSelectFlow={setSelectedFlowCode}
+          <Sidebar
+            selectedFlowCode={selectedFlowCode}
+            flowOptions={flowOptions}
+            isLoadingCatalog={isLoadingCatalog}
+            isLoadingDisciplinas={isLoadingDisciplinas}
+            onSelectFlow={setSelectedFlowCode}
           periodo={periodoEfetivo}
           offset={state.periodoOffset}
           concluidas={resumo.concluidas}

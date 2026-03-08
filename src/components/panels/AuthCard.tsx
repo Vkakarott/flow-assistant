@@ -6,10 +6,9 @@ import { signOut, useSession } from "next-auth/react";
 interface AuthCardProps {
   total: number;
   concluidas: number;
-  cursando: number;
 }
 
-export function AuthCard({ total, concluidas, cursando }: AuthCardProps) {
+export function AuthCard({ total, concluidas }: AuthCardProps) {
   const { data: session, status } = useSession();
   const progresso = total > 0 ? Math.round((concluidas / total) * 100) : 0;
 
@@ -44,22 +43,12 @@ export function AuthCard({ total, concluidas, cursando }: AuthCardProps) {
       <div className="text-xs text-slate-300">
         {session.user?.name ?? "Usuário"} ({session.user?.email ?? "sem email"})
       </div>
-      <div className="text-xs text-slate-300">
-        Cursos salvos: 1
-      </div>
-      <div className="text-xs text-slate-300">
-        Progresso geral: {progresso}% ({concluidas}/{total})
-      </div>
-      <div className="text-xs text-slate-300">
-        Em andamento: {cursando}
-      </div>
+      {total > 0 && (
+        <div className="text-xs text-slate-300">
+          Progresso: {progresso}% ({concluidas}/{total})
+        </div>
+      )}
       <div className="flex items-center gap-2">
-        <Link
-          href="/nova-matriz"
-          className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-slate-100 hover:bg-white/10"
-        >
-          Nova matriz
-        </Link>
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: "/" })}

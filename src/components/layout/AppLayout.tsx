@@ -27,9 +27,11 @@ export function AppLayout({
                         type="button"
                         onClick={() => setIsSidebarCollapsed(false)}
                         aria-label="Expandir sidebar"
-                        className="absolute right-3 top-4 z-30 inline-flex h-8 items-center rounded-md border border-white/15 bg-black/70 px-2 text-xs font-medium text-slate-200 backdrop-blur hover:bg-black/85"
+                        className="absolute right-3 top-4 z-30 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-black/70 text-slate-200 backdrop-blur hover:bg-black/85"
                     >
-                        Abrir
+                        <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
+                            <path d="M12.5 5L7.5 10L12.5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                     </button>
                 )}
 
@@ -45,9 +47,11 @@ export function AppLayout({
                             type="button"
                             onClick={() => setIsSidebarCollapsed(true)}
                             aria-label="Retrair sidebar"
-                            className="absolute left-0 top-4 z-20 -translate-x-1/2 inline-flex h-8 items-center rounded-md border border-white/15 bg-black/70 px-2 text-xs font-medium text-slate-200 backdrop-blur hover:bg-black/85"
+                            className="absolute left-0 top-4 z-20 -translate-x-1/2 inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/15 bg-black/70 text-slate-200 backdrop-blur hover:bg-black/85"
                         >
-                            Fechar
+                            <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">
+                                <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
                         </button>
                     )}
 

@@ -4,7 +4,6 @@ import { AuthCard } from "./AuthCard";
 interface SidebarProps {
     selectedFlowCode: string | null;
     flowOptions: Array<{ code: string; label: string }>;
-    flowSource: "user" | "system";
     isLoadingCatalog: boolean;
     isLoadingDisciplinas: boolean;
     onSelectFlow: (flowCode: string) => void;
@@ -21,7 +20,6 @@ interface SidebarProps {
 export function Sidebar({
     selectedFlowCode,
     flowOptions,
-    flowSource,
     isLoadingCatalog,
     isLoadingDisciplinas,
     onSelectFlow,
@@ -57,11 +55,6 @@ export function Sidebar({
                         </option>
                     ))}
                 </select>
-                <div className="text-xs text-slate-400/90">
-                    {flowSource === "user"
-                        ? "Exibindo matrizes do usuário (banco + storage)."
-                        : "Exibindo matrizes padrão do sistema."}
-                </div>
                 {isLoadingDisciplinas && (
                     <div className="text-xs text-slate-400/90">Carregando disciplinas da matriz...</div>
                 )}
@@ -69,7 +62,6 @@ export function Sidebar({
 
             <AuthCard
                 concluidas={concluidas}
-                cursando={cursando}
                 total={total}
             />
 

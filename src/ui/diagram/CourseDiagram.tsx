@@ -58,8 +58,8 @@ export function CourseDiagram({
             >
                 <defs>
                     <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#020617" />
-                        <stop offset="100%" stopColor="#0b1220" />
+                        <stop offset="0%" stopColor="#0a0a0b" />
+                        <stop offset="100%" stopColor="#111113" />
                     </linearGradient>
                     <marker
                         id="arrow"
@@ -71,7 +71,7 @@ export function CourseDiagram({
                         markerHeight="7"
                         orient="auto"
                     >
-                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280" />
                     </marker>
                 </defs>
 
@@ -89,7 +89,7 @@ export function CourseDiagram({
                                 y={y}
                                 width={Math.max(width, 800)}
                                 height={rowHeight}
-                                fill={isEven ? "rgba(30, 41, 59, 0.45)" : "rgba(15, 23, 42, 0.25)"}
+                                fill={isEven ? "rgba(28, 28, 31, 0.48)" : "rgba(18, 18, 20, 0.25)"}
                             />
                             <text
                                 x={24}

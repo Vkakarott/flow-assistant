@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../src/auth/options";
-import { DEFAULT_FLOW_CODE } from "../../../src/config/flow";
 import type { AcademicState } from "../../../src/core/state";
 import { initialAcademicState } from "../../../src/core/state";
 import { prisma } from "../../../src/lib/prisma";
@@ -35,7 +34,10 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const flowCode = searchParams.get("flowCode") ?? DEFAULT_FLOW_CODE;
+  const flowCode = searchParams.get("flowCode") ?? "";
+  if (!flowCode) {
+    return NextResponse.json({ error: "flowCode is required" }, { status: 400 });
+  }
   const userIdentifier = await getUserIdentifier();
 
   if (!userIdentifier) {
@@ -76,7 +78,10 @@ export async function PUT(request: Request) {
 
   const body = (await request.json()) as { state?: AcademicState; flowCode?: string };
   const state = body.state ?? initialAcademicState;
-  const flowCode = body.flowCode ?? DEFAULT_FLOW_CODE;
+  const flowCode = body.flowCode ?? "";
+  if (!flowCode) {
+    return NextResponse.json({ ok: false, error: "flowCode is required" }, { status: 400 });
+  }
 
   try {
     await prisma.userFlowProgress.upsert({

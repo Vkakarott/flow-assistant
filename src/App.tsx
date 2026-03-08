@@ -80,9 +80,10 @@ function App() {
         // ignore and use local data fallback
       }
 
-      const catalogFlowCodes = userFlowCodes.length
-        ? uniqueSorted(userFlowCodes)
-        : uniqueSorted(systemFlowCodes);
+      const catalogFlowCodes = uniqueSorted([
+        ...systemFlowCodes,
+        ...userFlowCodes
+      ]);
 
       setAvailableFlowCodes(catalogFlowCodes);
 

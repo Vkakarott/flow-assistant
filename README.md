@@ -15,12 +15,15 @@ Permitir acompanhar:
 
 - Cada item do fluxo aparece em um card no diagrama.
 - A matriz atual é escolhida dinamicamente:
-  - Prioridade 1: matrizes do usuário (banco + storage local)
-  - Prioridade 2: matrizes padrão do sistema (banco)
+  - Catálogo vindo do banco (`systemFlowCodes` + `userFlowCodes`)
+  - Sem seleção automática de matriz quando não houver seleção salva válida
 - Clique em um item disponível para marcar como `cursando`.
 - Clique novamente para marcar como `concluída`.
 - Clique em uma concluída para voltar para `pendente`.
 - Itens bloqueados não permitem seleção até as dependências serem concluídas.
+- A sidebar possui:
+  - Lista de pendentes não bloqueadas (ordem por `id`)
+  - Botão `Ajuda` com modal flutuante (cores + tutorial)
 
 ## Dados e persistência
 
@@ -28,8 +31,6 @@ Permitir acompanhar:
 - Progresso do usuário autenticado: PostgreSQL (`user_flow_progress`) gerenciado por Prisma
 - Fallback local:
 1. Progresso: `localStorage`, para sessão não autenticada
-
-Fluxo ativo padrão: `cc-2017` (configurável por `NEXT_PUBLIC_DEFAULT_FLOW_CODE`).
 
 Formato de item (referência):
 
@@ -91,8 +92,8 @@ Rotas principais:
 - `GET /api/flows`: catálogo de matrizes (`systemFlowCodes`, `userFlowCodes`)
 - `POST /api/flows`: upload de matriz (`flowCode` + `disciplinas[]`) no formato do JSON
 - `GET /api/disciplinas?flow=<flow-code>`: carrega itens do fluxo
-- `GET /api/progress?flowCode=<flow-code>`: retorna progresso do usuário autenticado
-- `PUT /api/progress`: atualiza progresso do usuário autenticado (envie `flowCode` no body)
+- `GET /api/progress?flowCode=<flow-code>`: retorna progresso do usuário autenticado (`flowCode` obrigatório)
+- `PUT /api/progress`: atualiza progresso do usuário autenticado (`flowCode` obrigatório no body)
 
 ### Upload de matriz
 
@@ -132,7 +133,6 @@ Copie `.env.example` para `.env.local` e ajuste as credenciais:
 - `DIRECT_URL` (Supabase direct URL para migrações e seed)
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY`
-- `NEXT_PUBLIC_DEFAULT_FLOW_CODE` (fluxo padrão da aplicação)
 
 Regras de conexão:
 

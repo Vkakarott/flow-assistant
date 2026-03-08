@@ -211,8 +211,8 @@ function App() {
     () =>
       disciplinas
         .filter((disciplina) => calcularStatus(disciplina, state) === "disponivel")
-        .map((disciplina) => disciplina.nome)
-        .sort((a, b) => a.localeCompare(b)),
+        .sort((a, b) => a.id - b.id)
+        .map((disciplina) => disciplina.nome),
     [disciplinas, state]
   );
 

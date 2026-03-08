@@ -33,7 +33,7 @@ export function LoginForm() {
 
   return (
     <form
-      className="w-full max-w-sm space-y-4 rounded-xl border border-white/10 bg-black/45 p-6 backdrop-blur"
+      className="theme-panel w-full max-w-sm space-y-4 rounded-xl p-6"
       onSubmit={onSubmit}
     >
       <h1 className="text-lg font-semibold text-slate-100">Entrar</h1>
@@ -52,7 +52,7 @@ export function LoginForm() {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          className="w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 text-slate-100 outline-none focus:border-sky-500"
+          className="theme-input w-full rounded-md px-3 py-2 text-slate-100 outline-none focus:border-white/30"
         />
       </div>
 
@@ -67,7 +67,7 @@ export function LoginForm() {
           required
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          className="w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 text-slate-100 outline-none focus:border-sky-500"
+          className="theme-input w-full rounded-md px-3 py-2 text-slate-100 outline-none focus:border-white/30"
         />
       </div>
 

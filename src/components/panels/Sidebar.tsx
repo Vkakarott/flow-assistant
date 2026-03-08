@@ -41,7 +41,7 @@ export function Sidebar({
                     Matriz atual
                 </div>
                 <select
-                    className="w-full rounded-md border border-white/10 bg-black/60 px-2.5 py-2 text-sm text-slate-100 outline-none focus:border-sky-500"
+                    className="w-full rounded-md border border-white/10 bg-black/60 px-2.5 py-2 text-sm text-slate-100 outline-none focus:border-white/30"
                     value={selectedFlowCode ?? ""}
                     onChange={(event) => onSelectFlow(event.target.value)}
                     disabled={isLoadingCatalog || flowOptions.length === 0}
@@ -76,16 +76,16 @@ export function Sidebar({
                     Progresso
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="rounded-md border border-emerald-400/20 bg-emerald-500/5 px-2 py-1 text-emerald-200">
+                    <div className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-slate-200">
                         Concluídas: {concluidas}
                     </div>
-                    <div className="rounded-md border border-sky-400/20 bg-sky-500/5 px-2 py-1 text-sky-200">
+                    <div className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-slate-200">
                         Cursando: {cursando}
                     </div>
-                    <div className="rounded-md border border-amber-400/20 bg-amber-500/5 px-2 py-1 text-amber-100">
+                    <div className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-slate-200">
                         Pendentes: {pendentes}
                     </div>
-                    <div className="rounded-md border border-slate-500/20 bg-slate-500/5 px-2 py-1 text-slate-300">
+                    <div className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-slate-300">
                         Bloqueadas: {bloqueadas}
                     </div>
                 </div>

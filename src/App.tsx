@@ -15,7 +15,6 @@ import {
 
 import { calcularPeriodoEfetivo } from "./core/academic";
 import {
-  listStoredFlowCodes,
   loadAcademicState,
   loadSelectedFlow,
   saveAcademicState,
@@ -81,10 +80,8 @@ function App() {
         // ignore and use local data fallback
       }
 
-      const storedFlowCodes = listStoredFlowCodes(accountScope);
-      const userLoadedFlowCodes = uniqueSorted([...userFlowCodes, ...storedFlowCodes]);
-      const catalogFlowCodes = userLoadedFlowCodes.length
-        ? userLoadedFlowCodes
+      const catalogFlowCodes = userFlowCodes.length
+        ? uniqueSorted(userFlowCodes)
         : uniqueSorted(systemFlowCodes);
 
       setAvailableFlowCodes(catalogFlowCodes);
@@ -219,8 +216,8 @@ function App() {
             disciplinas={disciplinas}
           />
         ) : (
-          <div className="h-full w-full bg-slate-950 flex items-center justify-center p-6">
-            <div className="max-w-xl w-full rounded-xl border border-slate-800 bg-slate-900/70 p-6">
+          <div className="theme-bg h-full w-full flex items-center justify-center p-6">
+            <div className="theme-panel max-w-xl w-full rounded-xl p-6">
               <div className="text-lg font-semibold text-slate-100">
                 Nenhuma matriz selecionada
               </div>

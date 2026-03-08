@@ -50,7 +50,7 @@ export function CourseDiagram({
         : 0;
 
     return (
-        <div className="h-full w-full overflow-auto bg-slate-950">
+        <div className="h-full w-full overflow-auto bg-[#09090b]">
             <svg
                 width={Math.max(width, 800)}
                 height={Math.max(height, 600)}

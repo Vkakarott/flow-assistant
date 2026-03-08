@@ -11,7 +11,7 @@ export default async function NewMatrixPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 py-8">
+    <main className="theme-bg min-h-screen px-4 py-8">
       <NewMatrixForm />
     </main>
   );

@@ -71,7 +71,7 @@ export function NewMatrixForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="mx-auto w-full max-w-3xl space-y-4 rounded-xl border border-white/10 bg-black/45 p-5 backdrop-blur"
+      className="theme-panel mx-auto w-full max-w-3xl space-y-4 rounded-xl p-5"
     >
       <div>
         <h1 className="text-lg font-semibold text-slate-100">Nova matriz</h1>
@@ -90,7 +90,7 @@ export function NewMatrixForm() {
           value={flowCode}
           onChange={(event) => setFlowCode(event.target.value)}
           placeholder="ex: cc-2017"
-          className="w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 text-slate-100 outline-none focus:border-sky-500"
+          className="theme-input w-full rounded-md px-3 py-2 text-slate-100 outline-none focus:border-white/30"
           required
         />
       </div>
@@ -103,7 +103,7 @@ export function NewMatrixForm() {
           id="matrixJson"
           value={jsonText}
           onChange={(event) => setJsonText(event.target.value)}
-          className="min-h-[320px] w-full rounded-md border border-white/10 bg-black/60 px-3 py-2 font-mono text-xs text-slate-100 outline-none focus:border-sky-500"
+          className="theme-input min-h-[320px] w-full rounded-md px-3 py-2 font-mono text-xs text-slate-100 outline-none focus:border-white/30"
           spellCheck={false}
           required
         />

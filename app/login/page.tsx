@@ -11,7 +11,7 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
+    <main className="theme-bg min-h-screen flex items-center justify-center px-4">
       <LoginForm />
     </main>
   );

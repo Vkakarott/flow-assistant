@@ -39,7 +39,7 @@ export function Sidebar({
     const panelClass = "rounded-lg border border-white/10 bg-black/35 p-3";
 
     return (
-        <div className="space-y-3 p-3">
+        <div className="space-y-3 p-2 sm:p-3">
             <div className={`${panelClass} space-y-2`}>
                 <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
                     Matriz atual
@@ -79,7 +79,7 @@ export function Sidebar({
                 <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
                     Progresso
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
                     <div className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-slate-200">
                         Concluídas: {concluidas}
                     </div>

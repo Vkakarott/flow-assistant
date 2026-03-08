@@ -207,6 +207,15 @@ function App() {
     [availableFlowCodes]
   );
 
+  const pendentesDisponiveis = useMemo(
+    () =>
+      disciplinas
+        .filter((disciplina) => calcularStatus(disciplina, state) === "disponivel")
+        .map((disciplina) => disciplina.nome)
+        .sort((a, b) => a.localeCompare(b)),
+    [disciplinas, state]
+  );
+
   return (
     <AppLayout
       main={
@@ -242,6 +251,7 @@ function App() {
           cursando={resumo.cursando}
           pendentes={resumo.pendentes}
           bloqueadas={resumo.bloqueadas}
+          pendentesDisponiveis={pendentesDisponiveis}
           total={disciplinas.length}
           onChangeOffset={(value) =>
             dispatch({

@@ -26,7 +26,6 @@ import type { Disciplina } from "./core/types";
 
 interface AppProps {
   initialFlowCode: string;
-  initialDisciplinas: Disciplina[];
 }
 
 interface FlowCatalogResponse {
@@ -47,13 +46,13 @@ function formatFlowLabel(flowCode: string): string {
   return flowCode.replace(/[-_]/g, " ").toUpperCase();
 }
 
-function App({ initialFlowCode, initialDisciplinas }: AppProps) {
+function App({ initialFlowCode }: AppProps) {
   const { data: session, status } = useSession();
-  const [disciplinas, setDisciplinas] = useState<Disciplina[]>(initialDisciplinas);
-  const [availableFlowCodes, setAvailableFlowCodes] = useState<string[]>([initialFlowCode]);
-  const [selectedFlowCode, setSelectedFlowCode] = useState<string | null>(initialFlowCode);
+  const [disciplinas, setDisciplinas] = useState<Disciplina[]>([]);
+  const [availableFlowCodes, setAvailableFlowCodes] = useState<string[]>([]);
+  const [selectedFlowCode, setSelectedFlowCode] = useState<string | null>(null);
   const [flowSource, setFlowSource] = useState<"user" | "system">("system");
-  const [isLoadingCatalog, setIsLoadingCatalog] = useState(false);
+  const [isLoadingCatalog, setIsLoadingCatalog] = useState(true);
   const [isLoadingDisciplinas, setIsLoadingDisciplinas] = useState(false);
 
   const accountScope = session?.user?.email ?? session?.user?.name ?? "guest";
@@ -91,7 +90,7 @@ function App({ initialFlowCode, initialDisciplinas }: AppProps) {
       const userLoadedFlowCodes = uniqueSorted([...userFlowCodes, ...storedFlowCodes]);
       const catalogFlowCodes = userLoadedFlowCodes.length
         ? userLoadedFlowCodes
-        : uniqueSorted([...systemFlowCodes, initialFlowCode]);
+        : uniqueSorted(systemFlowCodes);
 
       setFlowSource(userLoadedFlowCodes.length ? "user" : "system");
       setAvailableFlowCodes(catalogFlowCodes);

@@ -17,8 +17,6 @@ Permitir acompanhar:
 - A matriz atual é escolhida dinamicamente:
   - Prioridade 1: matrizes do usuário (banco + storage local)
   - Prioridade 2: matrizes padrão do sistema (banco)
-- Fallback resiliente:
-  - Se banco cair ou não tiver dados, a aplicação carrega a matriz padrão local (`cc-2017`) do JSON.
 - Clique em um item disponível para marcar como `cursando`.
 - Clique novamente para marcar como `concluída`.
 - Clique em uma concluída para voltar para `pendente`.
@@ -29,8 +27,7 @@ Permitir acompanhar:
 - Itens do fluxo: PostgreSQL (`flow_items`) gerenciado por Prisma
 - Progresso do usuário autenticado: PostgreSQL (`user_flow_progress`) gerenciado por Prisma
 - Fallback local:
-1. Grade: JSON local, caso banco esteja indisponível
-2. Progresso: `localStorage`, para sessão não autenticada
+1. Progresso: `localStorage`, para sessão não autenticada
 
 Fluxo ativo padrão: `cc-2017` (configurável por `NEXT_PUBLIC_DEFAULT_FLOW_CODE`).
 
